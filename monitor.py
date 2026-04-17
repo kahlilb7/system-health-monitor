@@ -202,3 +202,28 @@ def generate_report(results):
     return report
 
 
+# ============================================================
+# Step 7: Main Function (Run Monitor and Display Results)
+# ============================================================
+
+def main():
+    """
+    Runs the monitor, prints the report,
+    and logs the results to a file.
+
+    Parameters:
+        None
+
+    Returns:
+        None
+    """
+    results = run_checks()
+    report = generate_report(results)
+
+    print(report)
+    log_results(results, "monitor.log")
+
+
+if __name__ == "__main__":
+    main()
+    
