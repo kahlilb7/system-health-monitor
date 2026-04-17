@@ -72,3 +72,32 @@ def check_memory():
 
     except DataCorruptionError as error:
         return {"status": "error", "data": str(error)}
+    
+
+# ============================================================
+# Step 3: Network Check Function (Service Call and Threshold Check)
+# ============================================================
+
+def check_network():
+    """
+    Gets network metrics, checks if usage is too high,
+    and returns the result.
+
+    Parameters:
+        None
+
+    Returns:
+        dict: includes status and network data or error message
+    """
+    try:
+        data = network_monitor.get_network_metrics()
+
+        if data["usage_percent"] > NETWORK_THRESHOLD:
+            raise ThresholdExceededError("Network usage exceeded the allowed threshold.")
+
+        return {"status": "ok", "data": data}
+
+    except ConnectionTimeoutError as error:
+        return {"status": "error", "data": str(error)}
+    
+    
