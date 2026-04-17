@@ -46,3 +46,29 @@ def check_cpu():
 
     except ServiceUnavailableError as error:
         return {"status": "error", "data": str(error)}
+    
+# ============================================================
+# Step 2: Memory Check Function (Service Call and Threshold Check)
+# ============================================================
+
+def check_memory():
+    """
+    Gets memory metrics, checks if usage is too high,
+    and returns the result.
+
+    Parameters:
+        None
+
+    Returns:
+        dict: includes status and memory data or error message
+    """
+    try:
+        data = memory_monitor.get_memory_metrics()
+
+        if data["usage_percent"] > MEMORY_THRESHOLD:
+            raise ThresholdExceededError("Memory usage exceeded the allowed threshold.")
+
+        return {"status": "ok", "data": data}
+
+    except DataCorruptionError as error:
+        return {"status": "error", "data": str(error)}
