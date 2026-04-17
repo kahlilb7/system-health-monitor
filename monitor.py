@@ -18,37 +18,45 @@ from exceptions import (
     ThresholdExceededError,
 )
 
+# thresholds for each system
 CPU_THRESHOLD = 80.0
 MEMORY_THRESHOLD = 75.0
 NETWORK_THRESHOLD = 90.0
 
+
 # ============================================================
-# Step 1: CPU Check Function (Service Call and Threshold Check)
+# Step 1: CPU Check Function 
 # ============================================================
 
 def check_cpu():
     """
-    Checks CPU health metrics and returns the result.
+    Gets CPU metrics, checks if usage is too high,
+    and returns the result.
 
     Parameters:
         None
 
     Returns:
-        dict: A dictionary with the check status and CPU data.
+        dict: includes status and cpu data or error message
     """
     try:
+        # get cpu data from cpu_monitor
         data = cpu_monitor.get_cpu_metrics()
 
+        # check if usage goes exceeds threshold
         if data["usage_percent"] > CPU_THRESHOLD:
             raise ThresholdExceededError("CPU usage exceeded the allowed threshold.")
 
+        # return success result
         return {"status": "ok", "data": data}
 
     except ServiceUnavailableError as error:
+        # handle case where cpu service is down
         return {"status": "error", "data": str(error)}
-    
+
+
 # ============================================================
-# Step 2: Memory Check Function (Service Call and Threshold Check)
+# Step 2: Memory Check Function
 # ============================================================
 
 def check_memory():
@@ -63,19 +71,23 @@ def check_memory():
         dict: includes status and memory data or error message
     """
     try:
+        # get memory data from memory_monitor
         data = memory_monitor.get_memory_metrics()
 
+        # check if memory is full
         if data["usage_percent"] > MEMORY_THRESHOLD:
             raise ThresholdExceededError("Memory usage exceeded the allowed threshold.")
 
+        # return success result
         return {"status": "ok", "data": data}
 
     except DataCorruptionError as error:
+        # handle corrupted data case
         return {"status": "error", "data": str(error)}
-    
+
 
 # ============================================================
-# Step 3: Network Check Function (Service Call and Threshold Check)
+# Step 3: Network Check Function 
 # ============================================================
 
 def check_network():
@@ -90,16 +102,21 @@ def check_network():
         dict: includes status and network data or error message
     """
     try:
+        # get network data from network_monitor
         data = network_monitor.get_network_metrics()
 
+        # check if network usage is exceeded
         if data["usage_percent"] > NETWORK_THRESHOLD:
             raise ThresholdExceededError("Network usage exceeded the allowed threshold.")
 
+        # return success result
         return {"status": "ok", "data": data}
 
     except ConnectionTimeoutError as error:
+        # handle timeout case
         return {"status": "error", "data": str(error)}
-    
+
+
 # ============================================================
 # Step 4: Run All Checks (Aggregate Results)
 # ============================================================
@@ -114,6 +131,7 @@ def run_checks():
     Returns:
         dict: includes cpu, memory, and network results
     """
+    # run each check and store results together
     results = {
         "cpu": check_cpu(),
         "memory": check_memory(),
@@ -121,3 +139,33 @@ def run_checks():
     }
 
     return results
+
+
+# ============================================================
+# Step 5: Log Results to File 
+# ============================================================
+
+def log_results(results, filepath):
+    """
+    Writes monitoring results to a log file.
+
+    Parameters:
+        results (dict): the results from run_checks()
+        filepath (str): path to the log file
+
+    Returns:
+        None
+    """
+    try:
+        # open file in append mode so we don't overwrite previous runs
+        with open(filepath, "a") as file:
+            file.write("Monitoring Results:\n")
+
+            # loop through results and write each one
+            for key in results:
+                file.write(f"{key}: {results[key]}\n")
+
+    finally:
+        # always write completion message even if something goes wrong
+        with open(filepath, "a") as file:
+            file.write("Log complete\n\n")
