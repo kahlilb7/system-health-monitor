@@ -169,3 +169,36 @@ def log_results(results, filepath):
         # always write completion message even if something goes wrong
         with open(filepath, "a") as file:
             file.write("Log complete\n\n")
+
+
+# ============================================================
+# Step 6: Generate Report (Formatted Output Summary)
+# ============================================================
+
+def generate_report(results):
+    """
+    Builds a simple report string from the results.
+
+    Parameters:
+        results (dict): results from run_checks()
+
+    Returns:
+        str: formatted report of system status
+    """
+    report = "System Health Report\n"
+    report += "---------------------\n"
+
+    # go through each service and add its info
+    for key in results:
+        report += f"{key.upper()}:\n"
+        report += f"  Status: {results[key]['status']}\n"
+
+        # only show data if it exists
+        if "data" in results[key]:
+            report += f"  Data: {results[key]['data']}\n"
+
+        report += "\n"
+
+    return report
+
+
