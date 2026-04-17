@@ -100,4 +100,24 @@ def check_network():
     except ConnectionTimeoutError as error:
         return {"status": "error", "data": str(error)}
     
-    
+# ============================================================
+# Step 4: Run All Checks (Aggregate Results)
+# ============================================================
+
+def run_checks():
+    """
+    Runs all three service checks and returns the results together.
+
+    Parameters:
+        None
+
+    Returns:
+        dict: includes cpu, memory, and network results
+    """
+    results = {
+        "cpu": check_cpu(),
+        "memory": check_memory(),
+        "network": check_network()
+    }
+
+    return results
