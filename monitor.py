@@ -1,11 +1,19 @@
-# ============================================================
-# Kahlil Batieste
-# 04/16/2026
-# Project 3: System Health Monitor
-#
-# Implements system health checks, handles exceptions from
-# service modules, logs results, and generates status reports.
-# ============================================================
+"""
+System Health Monitor
+
+This program checks CPU, memory, and network health using modular service files.
+It handles service failures with custom exceptions, checks usage thresholds,
+generates a formatted report, and logs results to a file.
+
+Features:
+- CPU, memory, and network health checks
+- Custom exception handling
+- Threshold-based alerts
+- Report generation
+- File logging
+
+Author: Kahlil Batieste
+"""
 
 import cpu_monitor
 import memory_monitor
