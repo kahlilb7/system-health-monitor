@@ -1,11 +1,11 @@
-# ============================================================
-# Kahlil Batieste
-# 04/16/2026
-# Project 3: System Health Monitor
-#
-# Defines custom exception classes used for handling service
-# failures and threshold violations across the monitoring system.
-# ============================================================
+"""
+Custom Exception Definitions for System Health Monitor
+
+This module defines exception classes used to handle service failures
+and threshold violations across the monitoring system.
+
+Author: Kahlil Batieste
+"""
 
 class ServiceUnavailableError(Exception):
     """
