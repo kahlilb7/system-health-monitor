@@ -32,9 +32,7 @@ MEMORY_THRESHOLD = 75.0
 NETWORK_THRESHOLD = 90.0
 
 
-# ============================================================
-# Step 1: CPU Check Function 
-# ============================================================
+# --- CPU Check ---
 
 def check_cpu():
     """
@@ -63,9 +61,7 @@ def check_cpu():
         return {"status": "error", "data": str(error)}
 
 
-# ============================================================
-# Step 2: Memory Check Function
-# ============================================================
+# --- Memory Check ---
 
 def check_memory():
     """
@@ -94,9 +90,7 @@ def check_memory():
         return {"status": "error", "data": str(error)}
 
 
-# ============================================================
-# Step 3: Network Check Function 
-# ============================================================
+# --- Network Check ---
 
 def check_network():
     """
@@ -125,9 +119,7 @@ def check_network():
         return {"status": "error", "data": str(error)}
 
 
-# ============================================================
-# Step 4: Run All Checks (Aggregate Results)
-# ============================================================
+# --- Run All Checks ---
 
 def run_checks():
     """
@@ -149,9 +141,7 @@ def run_checks():
     return results
 
 
-# ============================================================
-# Step 5: Log Results to File 
-# ============================================================
+# --- Logging ---
 
 def log_results(results, filepath):
     """
@@ -179,9 +169,7 @@ def log_results(results, filepath):
             file.write("Log complete\n\n")
 
 
-# ============================================================
-# Step 6: Generate Report (Formatted Output Summary)
-# ============================================================
+# --- Report Generation ---
 
 def generate_report(results):
     """
@@ -210,9 +198,7 @@ def generate_report(results):
     return report
 
 
-# ============================================================
-# Step 7: Main Function (Run Monitor and Display Results)
-# ============================================================
+# --- Program Entry ---
 
 def main():
     """
